@@ -69,7 +69,9 @@
         // var _num_radius = 5;
         var _num_radius = 1,
             _num_range = 20,
-            _num_range_half = Math.floor(_num_range/2);
+            _num_range_half = Math.floor(_num_range/2),
+            _num_random_deg,
+            _num_random_range;
 
         // 基本款（方形）
         // _obj_canvas_2d.clearRect( (_json_pos.x-5), (_json_pos.y-5), 10, 10 );
@@ -80,16 +82,25 @@
         // _obj_canvas_2d.clear();
         // _obj_canvas_2d.closePath();
         
-        // 基本款（圓形）
-        _obj_canvas_2d.arc(_json_pos.x, _json_pos.y, _num_radius, 0, Math.PI*2, false);
-        for( var i=0; i<20; i++ ){
+        // 散落筆刷（方形）
+        // _obj_canvas_2d.arc(_json_pos.x, _json_pos.y, _num_radius, 0, Math.PI*2, false);
+        // for( var i=0; i<20; i++ ){
+        //     _obj_canvas_2d.beginPath();
+        //     _obj_canvas_2d.arc(_json_pos.x+Math.floor(Math.random()*_num_range)-_num_range_half, _json_pos.y+Math.floor(Math.random()*_num_range)-_num_range_half, _num_radius, 0, Math.PI*2, false);
+        //     _obj_canvas_2d.clear();
+        //     _obj_canvas_2d.closePath();
+        // }
+        
+        // 散落筆刷（圓形）
+        for( var i=0; i<_num_range*4; i++ ){
+            _num_random_deg = Math.PI*2*Math.random();
+            _num_random_range = Math.floor(_num_range_half*Math.random());
             _obj_canvas_2d.beginPath();
-            _obj_canvas_2d.arc(_json_pos.x+Math.floor(Math.random()*_num_range)-_num_range_half, _json_pos.y+Math.floor(Math.random()*_num_range)-_num_range_half, _num_radius, 0, Math.PI*2, false);
+            _obj_canvas_2d.arc(_json_pos.x+Math.floor(_num_random_range*Math.cos(_num_random_deg)), _json_pos.y+Math.floor(_num_random_range*Math.sin(_num_random_deg)), _num_radius, 0, Math.PI*2, false);
             _obj_canvas_2d.clear();
             _obj_canvas_2d.closePath();
         }
 
     });
-
 
 })();

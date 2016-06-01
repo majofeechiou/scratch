@@ -8,12 +8,16 @@
     
     // 圓形橡皮檫有參考
     // http://jsdo.it/akm2/e8CK
+    
+    // 可參考以下文件與範例
+    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createPattern
 
     // - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - 
 
-    CanvasRenderingContext2D.prototype.clear = function() {
+    CanvasRenderingContext2D.prototype.paint = function() {
         this.save();
-        this.globalCompositeOperation = 'destination-out';
+        // this.globalCompositeOperation = 'destination-out';
+        this.globalCompositeOperation = 'source-over';
         this.fillStyle = 'black';
         this.fill();
         this.restore();
@@ -21,7 +25,7 @@
 
     // - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - 
 
-    function createCanvas(num_zindex, str_imgfrom){
+    function createCanvas(bln_append, num_zindex, str_imgfrom, callback){
         var _num_width = 768, // 2048
             _num_height = 456, // 1216
             _obj_img = document.createElement('img'),
@@ -43,7 +47,13 @@
         _obj_canvas.style.left = '30px';
         _obj_canvas.style.top = '30px';
 
-        document.getElementsByTagName('body')[0].appendChild(_obj_canvas);
+        if( bln_append===true ){
+            document.getElementsByTagName('body')[0].appendChild(_obj_canvas);
+        }
+
+        if( callback && callback instanceof Function===true ){
+            callback();
+        }
 
         return {canvas:_obj_canvas, canvas_2d:_obj_canvas_2d};
     }
@@ -64,9 +74,7 @@
 
     // - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - * - 
 
-    createCanvas( 1, './new.jpg' )
-
-    var _json_canvas = createCanvas( 2, './origin.jpg' ),
+    var _json_canvas = createCanvas( true, 2, './origin.jpg' ),
         _obj_canvas = _json_canvas.canvas,
         _obj_canvas_2d = _json_canvas.canvas_2d;
 
@@ -75,7 +83,9 @@
         // var _num_radius = 5;
         var _num_radius = 1,
             _num_range = 50,
-            _num_range_half = Math.floor(_num_range/2);
+            _num_range_half = Math.floor(_num_range/2),
+            _num_random_deg,
+            _num_random_range;
 
         // 基本款（方形）
         // _obj_canvas_2d.clearRect( (_json_pos.x-5), (_json_pos.y-5), 10, 10 );
@@ -86,15 +96,28 @@
         // _obj_canvas_2d.clear();
         // _obj_canvas_2d.closePath();
         
-        // 基本款（圓形）
-        for( var i=0; i<_num_range*3; i++ ){
+        // 散落筆刷（方形）
+        // for( var i=0; i<_num_range*4; i++ ){
+        //     _obj_canvas_2d.beginPath();
+        //     _obj_canvas_2d.arc(_json_pos.x+Math.floor(Math.random()*_num_range)-_num_range_half, _json_pos.y+Math.floor(Math.random()*_num_range)-_num_range_half, _num_radius, 0, Math.PI*2, false);
+        //     _obj_canvas_2d.clear();
+        //     _obj_canvas_2d.closePath();
+        // }
+        
+        // 散落筆刷（圓形）
+        for( var i=0; i<_num_range*4; i++ ){
+            _num_random_deg = Math.PI*2*Math.random();
+            _num_random_range = Math.floor(_num_range_half*Math.random());
             _obj_canvas_2d.beginPath();
-            _obj_canvas_2d.arc(_json_pos.x+Math.floor(Math.random()*_num_range)-_num_range_half, _json_pos.y+Math.floor(Math.random()*_num_range)-_num_range_half, _num_radius, 0, Math.PI*2, false);
-            _obj_canvas_2d.clear();
+            _obj_canvas_2d.arc(_json_pos.x+Math.floor(_num_random_range*Math.cos(_num_random_deg)), _json_pos.y+Math.floor(_num_random_range*Math.sin(_num_random_deg)), _num_radius, 0, Math.PI*2, false);
+            _obj_canvas_2d.paint();
             _obj_canvas_2d.closePath();
         }
 
     });
 
+    createCanvas( false, 1, './new.jpg', function(){
+        console.log('-----');
+    } );
 
 })();
