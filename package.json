@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/majofeechiou/scratch/issues"
   },
-  "homepage": "https://github.com/majofeechiou/scratch#readme"
+  "homepage": "https://github.com/majofeechiou/scratch#readme",
+  "devDependencies": {
+    "buble": "^0.10.3",
+    "webpack": "^1.13.1"
+  }
 }
