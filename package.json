@@ -1,0 +1,23 @@
+{
+  "name": "scratch",
+  "version": "1.0.0",
+  "description": "use canvas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/majofeechiou/scratch.git"
+  },
+  "keywords": [
+    "scratch",
+    "canvas"
+  ],
+  "author": "majofeechiou",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/majofeechiou/scratch/issues"
+  },
+  "homepage": "https://github.com/majofeechiou/scratch#readme"
+}
